@@ -14,7 +14,7 @@ const NASA = 'https://api.nasa.gov/planetary/apod?api_key=2rSHWsf3M3HOPf0qp3XHEz
 
 // Command keyboard
 const markup = bot.keyboard([
-  ['/kittygif', '/space', '/grrrl']
+  ['/kittygif', '/space', '/grrrl', '/grrrl big boobs']
 ], { resize: true, once: false });
 
 // Log every text message
@@ -43,7 +43,7 @@ bot.on('text', function(msg) {
 bot.on(['/start', '/help'], function(msg) {
 
   return bot.sendMessage(msg.chat.id,
-     '😺 Use commands: /kitty, /kittygif, /space, /grrrl, /g (search text)', { markup }
+     '😺 Use commands: /kitty, /kittygif, /space, /grrrl, /g (add text)', { markup }
   );
 
 });
@@ -113,21 +113,26 @@ bot.on(['/grrrl', '/g'], function(msg) {
 
   let promise;
   let id = msg.chat.id;
-    
-    let params = createParametersString(msg.text);
 
-    console.log(params);
-  let HOTTY = 'http://api.giphy.com/v1/gifs/search?q=$'+params+'&limit=100&api_key=dc6zaTOxFJmzC';
+    //console.log("1"+q);
+  //q = q.shift();
+    //q = q.splice(0,1);
+    //console.log("2"+q);
+  //let xxx = q.join('+');
+  //let xxx =  Array.prototype.join.call(q, '+')
     
+    //console.log(xxx);
+   let params = createParametersString(msg.text);
+    let search = 'girl+'+params;
+    console.log(params);
+  let HOTTY = 'http://api.giphy.com/v1/gifs/search?q='+search+'&limit=100&api_key=dc6zaTOxFJmzC';
+  console.log(HOTTY);
     
     request(HOTTY, function (error, response, body) {
         if (!error && response.statusCode == 200) {
         GRRRL = JSON.parse(body);
-            console.log(":::::")
-            console.log(GRRRL.data.length);
-            
         let i = Math.floor((Math.random() * GRRRL.data.length) + 0);
-        let url = GRRRL.data[0].images.downsized.url;
+        let url = GRRRL.data[i].images.downsized.url;
         promise = bot.sendDocument(id, url);
       }
     else {
@@ -146,6 +151,7 @@ bot.on(['/grrrl', '/g'], function(msg) {
 });
     
     });
+
 
 // On command "kitty" or "kittygif"
 bot.on(['/kitty', '/kittygif'], function(msg) {
