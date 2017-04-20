@@ -43,7 +43,7 @@ bot.on('text', function(msg) {
 bot.on(['/start', '/help'], function(msg) {
 
   return bot.sendMessage(msg.chat.id,
-     '😺 Use commands: /kitty, /kittygif, /space, /grrrl', { markup }
+     '😺 Use commands: /kitty, /kittygif, /space, /grrrl, /g (search text)', { markup }
   );
 
 });
@@ -91,24 +91,44 @@ bot.on('/space', function(msg) {
 	});
 });
 
+  // Jojo's magic code
+function createParametersString(botquery)
+{
+    let params = '';
+    let q = botquery.split(' ');
+    for(var i =1; i < q.length; i++)
+      {
+          params += q[i];
+          
+          if(i < q.length -1)
+              params += "+";
+      }
+    
+    return params;
+}
+
 
 // On command "grrrl"
 bot.on(['/grrrl', '/g'], function(msg) {
 
   let promise;
   let id = msg.chat.id;
-  let q = msg.text.split(' + ');
-  let HOTTY = `http://api.giphy.com/v1/gifs/search?q=${q}&limit=100&api_key=dc6zaTOxFJmzC`;
+    
+    let params = createParametersString(msg.text);
+
+    console.log(params);
+  let HOTTY = 'http://api.giphy.com/v1/gifs/search?q=$'+params+'&limit=100&api_key=dc6zaTOxFJmzC';
     
     
     request(HOTTY, function (error, response, body) {
         if (!error && response.statusCode == 200) {
         GRRRL = JSON.parse(body);
+            console.log(":::::")
+            console.log(GRRRL.data.length);
+            
         let i = Math.floor((Math.random() * GRRRL.data.length) + 0);
-     //   var i = 0; i < GRRRL.data.length; i++
-        let url = GRRRL.data[i].images.downsized.url;
+        let url = GRRRL.data[0].images.downsized.url;
         promise = bot.sendDocument(id, url);
-        console.log(q);
       }
     else {
 					console.log("Server error.");
@@ -127,7 +147,6 @@ bot.on(['/grrrl', '/g'], function(msg) {
     
     });
 
-
 // On command "kitty" or "kittygif"
 bot.on(['/kitty', '/kittygif'], function(msg) {
   
@@ -137,10 +156,8 @@ bot.on(['/kitty', '/kittygif'], function(msg) {
 
   // Photo or gif?
   if (cmd == '/kitty') {
-   // promise = bot.sendMessage(id, `😽 Eccoti un bel gatto!`);
     promise = bot.sendPhoto(id, KITTYCAT + 'jpg', { fileName: 'kitty.jpg' });
   } else {
-   // promise = bot.sendMessage(id, `😽 Eccoti un bel gatto!`);
     promise = bot.sendDocument(id, KITTYCAT + 'gif', { fileName: 'kitty.gif' });
   }
   
