@@ -10,11 +10,12 @@ const bot = new TeleBot('319752660:AAGQzKd1PdKr3R5ElVRz1ybMHtEA9oCg0mI');
 // Great API for this bot
 const KITTYCAT = 'https://thecatapi.com/api/images/get?format=src&type=';
 const NASA = 'https://api.nasa.gov/planetary/apod?api_key=2rSHWsf3M3HOPf0qp3XHEzKaa5u47A1AB3peH9Ap';
+const CHUCK = 'https://api.chucknorris.io/jokes/random';
 
 
 // Command keyboard
 const markup = bot.keyboard([
-  ['/kittygif', '/space', '/grrrl', '/grrrl big boobs']
+  ['/kittygif', '/space', '/chuck', '/grrrl boobs']
 ], { resize: true, once: false });
 
 // Log every text message
@@ -43,7 +44,7 @@ bot.on('text', function(msg) {
 bot.on(['/start', '/help'], function(msg) {
 
   return bot.sendMessage(msg.chat.id,
-     '😺 Use commands: /kitty, /kittygif, /space, /grrrl, /g (add text)', { markup }
+     '😺 Use commands: /kitty, /kittygif, /space, /grrrl or /g (add text), /chuck', { markup }
   );
 
 });
@@ -114,19 +115,11 @@ bot.on(['/grrrl', '/g'], function(msg) {
   let promise;
   let id = msg.chat.id;
 
-    //console.log("1"+q);
-  //q = q.shift();
-    //q = q.splice(0,1);
-    //console.log("2"+q);
-  //let xxx = q.join('+');
-  //let xxx =  Array.prototype.join.call(q, '+')
-    
-    //console.log(xxx);
+
    let params = createParametersString(msg.text);
-    let search = 'girl+'+params;
-    console.log(params);
-  let HOTTY = 'http://api.giphy.com/v1/gifs/search?q='+search+'&limit=100&api_key=dc6zaTOxFJmzC';
-  console.log(HOTTY);
+   let search = 'girl+'+params;
+   let HOTTY = 'http://api.giphy.com/v1/gifs/search?q='+search+'&limit=100&api_key=dc6zaTOxFJmzC';
+    console.log(HOTTY);
     
     request(HOTTY, function (error, response, body) {
         if (!error && response.statusCode == 200) {
@@ -151,6 +144,39 @@ bot.on(['/grrrl', '/g'], function(msg) {
 });
     
     });
+
+
+// On command "Chuck"
+bot.on(['/chuck', '/norris'], function(msg) {
+
+  let promise;
+  let id = msg.chat.id;
+    
+  
+	request(CHUCK, function (error, response, body) {
+				console.log(CHUCK+ ", " + response.statusCode);
+				if (!error && response.statusCode == 200) {
+					chuckdata = JSON.parse(body);
+       //    promise = bot.sendPhoto(id, chuckdata.icon_url);
+           promise = bot.sendMessage(id, `${ chuckdata.value }`);
+				
+                }
+				else {
+					console.log("Chuck Norris is never offline.");
+				}
+        
+  // Send "uploading photo" action
+  bot.sendAction(id, 'upload_photo');
+  
+  return promise.catch(error => {
+    console.log('[error]', error);
+    // Send an error
+    bot.sendMessage(id, `😿 An error ${ error } occurred, try again.`);
+  });
+        
+	});
+});
+
 
 
 // On command "kitty" or "kittygif"
