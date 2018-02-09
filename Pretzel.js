@@ -1,10 +1,11 @@
 /*
   PretzelBot production.
+	Cazzodicazzopetta
 */
 
 const TeleBot = require('telebot');
 const request = require('request');
-const bot = new TeleBot('');
+const bot = new TeleBot('336356993:AAHTZmk2m-F7sb1FfJeZhiVgDXwOQxdlnq4');
 
 
 // Great API for this bot

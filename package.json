@@ -4,8 +4,9 @@
   "description": "a simple telegram bot",
   "main": "Pretzel.js",
   "dependencies": {
-    "unirest": "^0.5.1",
-    "telebot": "^1.0.7"
+    "forever": "^0.15.3",
+    "telebot": "^1.2.3",
+    "unirest": "^0.5.1"
   },
   "devDependencies": {},
   "scripts": {
