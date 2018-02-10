@@ -12,10 +12,10 @@ const markup = bot.keyboard([
 ], { resize: true, once: false });
 
 // On command "Crypto"
-bot.on(['/crypto', '/coin'], function(msg) {
+// bot.on(['/crypto', '/coin'], function(msg) {
 
-  let promise;
-  let id = msg.chat.id;
+//  let promise;
+//  let id = msg.chat.id;
 //  let ticker = msg.text;
 //  let CRYPTO = 'https://www.bitstamp.net/api/v2/ticker//';
 
@@ -49,7 +49,7 @@ bot.on('text', msg => {
 //  return bot.sendMessage(id, `You said: ${ text }`);
   let ticker = msg.text;
   let CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/'+ticker+'/';
-
+  console.log('[text]', ticker);
 //  let fiat = ticker.replace(btc, );
 
 // Send "user is writing" action
@@ -67,7 +67,7 @@ bot.on('text', msg => {
                                 }
 
   return promise.catch(error => {
-    console.log('[error', error);
+    console.log('[error]', error);
     // Send an error
     bot.sendMessage(id, `😿 An error ${ error } occurred, try again.`);
   });
@@ -79,4 +79,3 @@ bot.on('text', msg => {
 });
 
 bot.connect();
-

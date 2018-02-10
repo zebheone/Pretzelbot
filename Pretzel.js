@@ -1,11 +1,10 @@
 /*
   PretzelBot production.
-	Cazzodicazzopetta
 */
 
 const TeleBot = require('telebot');
 const request = require('request');
-const bot = new TeleBot('336356993:AAHTZmk2m-F7sb1FfJeZhiVgDXwOQxdlnq4');
+const bot = new TeleBot('');
 
 
 // Great API for this bot
@@ -110,33 +109,17 @@ bot.on('/space', function(msg) {
 	});
 });
 
-  // Jojo's magic code
-function createParametersString(botquery)
-{
-    let params = '';
-    let q = botquery.split(' ');
-    for(var i =1; i < q.length; i++)
-      {
-          params += q[i];
-          
-          if(i < q.length -1)
-              params += "+";
-      }
-    
-    return params;
-}
-
-
-// On command "grrrl"
-bot.on(['/grrrl', '/g'], function(msg) {
+// On command "g"
+bot.on('/g', function(msg) {
 
   let promise;
   let id = msg.chat.id;
-    
-    let params = createParametersString(msg.text);
-    let search = 'search?q=girl+'+params;
+  let text = msg.text;
+  let clearcommand = text.replace('/g ', '');
+  let clearspaces = clearcommand.replace(' ', '+')
+  let search = 'search?q='+clearspaces;
+  console.log(search);
     let HOTTY = 'http://api.giphy.com/v1/gifs/'+search+'&limit=100&api_key=dc6zaTOxFJmzC&rating=r';
-    
     request(HOTTY, function (error, response, body) {
         if (!error && response.statusCode == 200) {
         GRRRL = JSON.parse(body);
