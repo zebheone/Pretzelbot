@@ -11,7 +11,7 @@ const bot = new TeleBot('');
 const KITTYCAT = 'https://thecatapi.com/api/images/get?format=src&type=';
 const NASA = 'https://api.nasa.gov/planetary/apod?api_key=2rSHWsf3M3HOPf0qp3XHEzKaa5u47A1AB3peH9Ap';
 const CHUCK = 'https://api.chucknorris.io/jokes/random';
-const CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/btceur/';
+const CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/';
 
 
 // Command keyboard
@@ -180,28 +180,44 @@ bot.on(['/crypto', '/coin'], function(msg) {
 
   let promise;
   let id = msg.chat.id;
-    
+  let text = msg.text;
+  let coinsmb = text.replace(/\/crypto |\/coin /,"");   //remove the command from the inserted text (both /crypto and /coin)
+  let ticker = coinsmb.replace(/-/,"");         //remove the "-" to be readable by Bitstamp api
+  let coin02 = coinsmb.replace(/\w*-/i,"");     //store the name of the 2nd ctypto
+  let coin01 = coinsmb.replace(/-\w*/,"");      //store the name of the 1st crypto
+
+if (coin02 == "eur"){
+smb = "€";
+}
+else if (coin02 == "usd") {
+smb = "$";
+}
+else {
+smb = coin02;
+}
+
+
   // Send "user is writing" action
   bot.sendAction(id, 'typing');
-  
-	request(CRYPTO, function (error, response, body) {
-				if (!error && response.statusCode == 200) {
-					btceur = JSON.parse(body);
-           promise = bot.sendMessage(id, `1 BTC = ${ btceur.last }€, high ${ btceur.high }€, low ${ btceur.low }€` );
-				
+ let CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/'+ticker+'/';
+        request(CRYPTO, function (error, response, body) {
+                                if (!error && response.statusCode == 200) {
+                                        apiresp = JSON.parse(body);
+           promise = bot.sendMessage(id, `1 ${ coin01 } = ${ apiresp.last }${ smb }, high ${ apiresp.high }${ smb }, low ${ apiresp.low }${ smb }` );
+
                 }
-				else {
-					console.log("offline.");
-				}
-        
+                                else {
+                                        console.log("offline.");
+                                }
+
   return promise.catch(error => {
     console.log('[error]', error);
     // Send an error
-    bot.sendMessage(id, `😿 An error ${ error } occurred, try again.`);
+    bot.sendMessage(id, `An error ${ error } occurred, try again.`);
   });
-        
-	});
-    
+
+        });
+
 });
 
 // On command "kitty" or "kittygif"
