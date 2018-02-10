@@ -16,7 +16,7 @@ const CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/btceur/';
 
 // Command keyboard
 const markup = bot.keyboard([
-  ['/kittygif', '/space', '/chuck', '/grrrl boobs', '/crypto']
+  ['/kittygif', '/space', '/chuck', '/g', '/crypto']
 ], { resize: true, once: false });
 
 // Log every text message
@@ -45,7 +45,7 @@ bot.on('text', function(msg) {
 bot.on(['/start', '/help'], function(msg) {
 
   return bot.sendMessage(msg.chat.id,
-     '😺 Use commands: /kitty, /kittygif, /space, /grrrl or /g (add text), /chuck, /crypto', { markup }
+     '😺 Use commands: /kitty, /kittygif, /space, /g (search gif), /chuck, /crypto', { markup }
   );
 
 });
