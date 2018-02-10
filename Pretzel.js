@@ -115,9 +115,9 @@ bot.on('/g', function(msg) {
   let promise;
   let id = msg.chat.id;
   let text = msg.text;
-  let clearcommand = text.replace('/g ', '');
-  let clearspaces = clearcommand.replace(' ', '+')
-  let search = 'search?q='+clearspaces;
+  let clearspaces = text.replace(/\s/g,"+");
+  let clearcommand = clearspaces.replace(/\/g/,"boobs");
+  let search = 'search?q='+clearcommand;
   console.log(search);
     let HOTTY = 'http://api.giphy.com/v1/gifs/'+search+'&limit=100&api_key=dc6zaTOxFJmzC&rating=r';
     request(HOTTY, function (error, response, body) {
