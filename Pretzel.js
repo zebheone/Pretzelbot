@@ -176,34 +176,67 @@ bot.on(['/chuck', '/norris'], function(msg) {
 });
 
 // On command "Crypto"
+
 bot.on(['/crypto', '/coin'], function(msg) {
 
   let promise;
   let id = msg.chat.id;
   let text = msg.text;
-  let coinsmb = text.replace(/\/crypto |\/coin /,"");   //remove the command from the inserted text (both /crypto and /coin)
-  let ticker = coinsmb.replace(/-/,"");         //remove the "-" to be readable by Bitstamp api
-  let coin02 = coinsmb.replace(/\w*-/i,"");     //store the name of the 2nd ctypto
-  let coin01 = coinsmb.replace(/-\w*/,"");      //store the name of the 1st crypto
+  let coinsmb = text.replace(/\/crypto|\/coin/,"");     //remove the command from the inserted text (both /crypto and /coin)
+  let ticker = coinsmb.replace(/ |-/g,"");              //remove the "-" to be readable by Bitstamp api
+  let coin02 = coinsmb.replace(/ \w*-/i,"");            //store the name of the 2nd ctypto
+  let coin01 = coinsmb.replace(/-\w*/,"");              //store the name of the 1st crypto
 
-if (coin02 == "eur"){
-smb = "€";
-}
-else if (coin02 == "usd") {
-smb = "$";
-}
-else {
-smb = coin02;
-}
+// Building header with coin name
+
+        if (coin01 == " btc") {
+         header = "Bitcoin";
+        }
+        else if (coin01 == " bch") {
+         header = "Bitcoin Cash";
+        }
+        else if (coin01 == " eth") {
+         header = "Ethereum";
+        }
+        else if (coin01 == " ltc") {
+         header = "Litecoin";
+        }
+        else if (coin01 == " xrp") {
+         header = "Ripple";
+        }
+
+// Check command and valid parameters
+
+        if (coinsmb  == "" || coinsmb == " help") {
+         return bot.sendMessage(id, `Usage: /crypto or /coin pair\n\nList of valid pairs:\nbtc-eur|usd\nbch-eur|usd|btc\neth-eur|usd|btc\nltc-eur|usd|btc\nxrp-eur|usd|btc\n\nEXAMPLE: /crypto btc-eur`);
+        }
+        else if  (ticker == "btcusd" || ticker == "btceur" || ticker == "bchusd" || ticker == "bcheur" || ticker == "bchbtc" || ticker == "ethusd" || ticker == "etheur" || ticker == "ethbtc" || ticker == "ltceur" || ticker == "ltcusd" || ticker == "ltcbtc" || ticker == "xrpeur" || ticker == "xrpusd" || ticker == "xrpbtc") {
+                if (coin02 == "eur"){
+                 smb = "EUR";
+                }
+                else if (coin02 == "usd") {
+                 smb = "USD";
+                }
+                else if (coin02 == "btc") {
+                 smb = "BTC";
+                }
+        }
+        else {
+         return bot.sendMessage(id, `Invalid request...Try again...`);
+        }
 
 
   // Send "user is writing" action
+
   bot.sendAction(id, 'typing');
+
+// Getting data from exchange
+
  let CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/'+ticker+'/';
         request(CRYPTO, function (error, response, body) {
                                 if (!error && response.statusCode == 200) {
                                         apiresp = JSON.parse(body);
-           promise = bot.sendMessage(id, `1 ${ coin01 } = ${ apiresp.last }${ smb }, high ${ apiresp.high }${ smb }, low ${ apiresp.low }${ smb }` );
+           promise = bot.sendMessage(id, `${ header }\nLast price:  ${ apiresp.last } ${ smb }\nHigh price: ${ apiresp.high } ${ smb }\nLow price:  ${ apiresp.low } ${ smb }` );
 
                 }
                                 else {
