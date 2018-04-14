@@ -4,7 +4,7 @@
 
 const TeleBot = require('telebot');
 const request = require('request');
-const bot = new TeleBot('319752660:AAGQzKd1PdKr3R5ElVRz1ybMHtEA9oCg0mI');
+const bot = new TeleBot('');
 
 
 // Great API for this bot
