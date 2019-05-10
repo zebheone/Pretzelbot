@@ -113,9 +113,9 @@ bot.on('/g', function(msg) {
   let id = msg.chat.id;
   let text = msg.text;
   let clearspaces = text.replace(/\s/g,"+");
-  let clearcommand = clearspaces.replace(/\/g/,"boobs");
+  let clearcommand = clearspaces.replace(/\/g/,"girl");
   let search = 'search?q='+clearcommand;
-    let HOTTY = 'http://api.giphy.com/v1/gifs/'+search+'&limit=100&api_key=dc6zaTOxFJmzC&rating=r';
+    let HOTTY = 'http://api.giphy.com/v1/gifs/'+search+'&limit=100&api_key=1FUIz7HbVC29I5hJPppZ0BjJ6F01aEnu&rating=r';
     console.log(HOTTY);
     request(HOTTY, function (error, response, body) {
         if (!error && response.statusCode == 200) {
