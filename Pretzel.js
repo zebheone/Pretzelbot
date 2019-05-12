@@ -2,10 +2,12 @@
   PretzelBot production.
 */
 
+const fs =require("fs");
+key_file = fs.readFileSync("Pretzelbot/files/keys.json")
+key = JSON.parse(key_file);
 const TeleBot = require('telebot');
 const request = require('request');
-const bot = new TeleBot('');
-
+const bot = new TeleBot(key.PROD);
 
 // Great API for this bot
 const KITTYCAT = 'https://thecatapi.com/api/images/get?format=src&type=';
@@ -16,7 +18,7 @@ const CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/btceur/';
 
 // Command keyboard
 const markup = bot.keyboard([
-  ['/kittygif', '/space', '/chuck', '/g', '/crypto']
+  ['/kittygif', '/space', '/chuck', '/g', '/weather', '/crypto']
 ], { resize: true, once: false });
 
 // Log every text message
@@ -42,7 +44,7 @@ bot.on('text', function(msg) {
 bot.on(['/start', '/help'], function(msg) {
 
   return bot.sendMessage(msg.chat.id,
-     '😺 Use commands: /kitty, /kittygif, /space, /g (BOOBS), /chuck, /crypto', { markup }
+     '😺 Use commands: /kitty, /kittygif, /space, /g (BOOBS), /chuck, /weather, /crypto ', { markup }
   );
 
 });
@@ -80,20 +82,23 @@ bot.on('/space', function(msg) {
   let promise;
   let id = msg.chat.id;
     
-  
 	request(NASA, function (error, response, body) {
-				console.log(NASA+ ", " + response.statusCode);
-				if (!error && response.statusCode == 200) {
-					APOD = JSON.parse(body);
-                    
-           promise = bot.sendPhoto(id, APOD.hdurl);
-           promise = bot.sendMessage(id, `Ecco la foto del giorno della NASA! day ${ APOD.date }, ${ APOD.title }, ${ APOD.copyright }.`);
-				
-                }
+                console.log(NASA+ ", " + response.statusCode);
+                        if (!error && response.statusCode == 200) {
+                                APOD = JSON.parse(body);
+                                        if (APOD.media_type == "image") {
+                                                promise = bot.sendMessage(id, `Ecco la foto del giorno della NASA! Day ${ APOD.date }, ${ APOD.title }`);
+                                                promise = bot.sendPhoto(id, APOD.hdurl);
+                                        }
+                                        else if (APOD.media_type == "video") {
+                                                var url = APOD.url.replace(/http:/,"");;
+                                                var url_ok = url.replace(/\/\/www/,"http://www");
+                                                promise = bot.sendMessage(id, `Ecco il video del giorno della NASA! Day ${ APOD.date }, ${ APOD.title }, ${ url_ok }`);
+                                        }
+                        }  
 				else {
-					console.log("Server error getting flybys.");
-				}
-        
+                                        console.log("Server error getting flybys.");
+                                }        
   // Send "uploading photo" action
   bot.sendAction(id, 'upload_photo');
   
@@ -113,7 +118,7 @@ bot.on('/g', function(msg) {
   let id = msg.chat.id;
   let text = msg.text;
   let clearspaces = text.replace(/\s/g,"+");
-  let clearcommand = clearspaces.replace(/\/g/,"girl");
+  let clearcommand = clearspaces.replace(/\/g/,"boobs");
   let search = 'search?q='+clearcommand;
     let HOTTY = 'http://api.giphy.com/v1/gifs/'+search+'&limit=100&api_key=1FUIz7HbVC29I5hJPppZ0BjJ6F01aEnu&rating=r';
     console.log(HOTTY);
@@ -224,6 +229,60 @@ bot.on(['/kitty', '/kittygif'], function(msg) {
     bot.sendMessage(id, `😿 An error ${ error } occurred, try again.`);
   });
 
+});
+
+// On command "weather"
+bot.on('/weather', function(msg) {
+const WEATHER = 'https://api.darksky.net/forecast/089c221608e8b732b087e6fcc3fe1a26/45.46427, 9.18951?lang=it&units=si';
+let promise;
+let id = msg.chat.id;
+	request(WEATHER, function (error, response, body) {
+		console.log(WEATHER+ ", " + response.statusCode);
+			if (!error && response.statusCode == 200) {
+				WTH = JSON.parse(body);
+				var fTemp = WTH.currently.temperature;
+				var fToCel = Math.round(10*((fTemp - 32)/1.8))/10 + "°C";
+				var DateTime = new Date((WTH.currently.time)*1000);
+				var dd = DateTime.getDate();
+				var m = (DateTime.getMonth()+1);
+				var yyyy = DateTime.getFullYear();
+				var hh = DateTime.getHours();
+				var mm = DateTime.getMinutes();
+					if (WTH.currently.icon == "rain" || WTH.currently.icon == "sleet") {
+						var emoji = "\uD83C\uDF27"
+					}
+					else if (WTH.currently.icon == "clear-day") {
+						var emoji = "\uD83C\uDF1E"
+					}
+					else if (WTH.currently.icon == "clear-night") {
+						var emoji = "\uD83C\uDF1D"
+					}
+					else if (WTH.currently.icon == "snow") {
+						var emoji = "\u2744\uFE0F"
+					}
+					else if (WTH.currently.icon == "wind") {
+						var emoji = "\uD83C\uDF2C"
+					}
+					else if (WTH.currently.icon == "fog") {
+						var emoji = "\uD83C\uDF2B"
+					}
+					else if (WTH.currently.icon == "cloudy") {
+						var emoji = "\u2601\uFE0F"
+					}
+					else if (WTH.currently.icon == "partly-cloudy-day" || WTH.currently.icon == "partly-cloudy-night") {
+						var emoji = "\u26C5\uFE0F"
+					}
+					promise = bot.sendMessage(id, `Milano - ${ dd }/${ m }/${ yyyy } ${ hh }:${ mm }\n\nCondizioni attuali: ${ WTH.currently.temperature } C°, ${ WTH.currently.summary }` + emoji + `\nPrevisioni: ${ WTH.hourly.summary }`);
+			}
+			else {
+				console.log("Server error getting flybys.");
+			}
+		return promise.catch(error => {
+		console.log('[error]', error);
+// Send an error
+		bot.sendMessage(id, `  An error ${ error } occurred, try again.`);
+		});
+	});
 });
 
 // Start getting updates
