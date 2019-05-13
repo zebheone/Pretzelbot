@@ -18,7 +18,7 @@ const CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/btceur/';
 
 // Command keyboard
 const markup = bot.keyboard([
-  ['/kittygif', '/space', '/chuck', '/g', '/weather', '/crypto']
+  ['/kittygif', '/g'], ['/chuck', '/space'], ['/weather', '/crypto']
 ], { resize: true, once: false });
 
 // Log every text message
