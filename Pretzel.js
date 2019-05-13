@@ -44,7 +44,7 @@ bot.on('text', function(msg) {
 bot.on(['/start', '/help'], function(msg) {
 
   return bot.sendMessage(msg.chat.id,
-     '😺 Use commands: /kitty, /kittygif, /space, /g (BOOBS), /chuck, /weather, /crypto ', { markup }
+     'Commands: /kitty, /kittygif, /space, /g (+text), /chuck, /weather, /crypto ', { markup }
   );
 
 });
@@ -52,8 +52,8 @@ bot.on(['/start', '/help'], function(msg) {
 // On command "about"
 bot.on('/about', function(msg) {
 
-  let text = '😽 This bot is powered by TeleBot library ' +
-      '😺 This bot is running on Raspberry Pi 2 with Node/Forever, hosted by Pi Dutz ' +
+  let text = 'This bot is powered by TeleBot library ' +
+      'This bot is running on Raspberry Pi 2 with Node/Forever, hosted by Pi Dutz ' +
     'https://github.com/zebheone/Pretzelbot Go check the source code!';
 
   return bot.sendMessage(msg.chat.id, text);
