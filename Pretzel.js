@@ -249,28 +249,28 @@ let id = msg.chat.id;
 				var hh = DateTime.getHours();
 				var mm = DateTime.getMinutes();
 					if (WTH.currently.icon == "rain" || WTH.currently.icon == "sleet") {
-						var emoji = "\uD83C\uDF27"
+						var emoji = " \uD83C\uDF27"
 					}
 					else if (WTH.currently.icon == "clear-day") {
-						var emoji = "\uD83C\uDF1E"
+						var emoji = " \uD83C\uDF1E"
 					}
 					else if (WTH.currently.icon == "clear-night") {
-						var emoji = "\uD83C\uDF1D"
+						var emoji = " \uD83C\uDF1D"
 					}
 					else if (WTH.currently.icon == "snow") {
-						var emoji = "\u2744\uFE0F"
+						var emoji = " \u2744\uFE0F"
 					}
 					else if (WTH.currently.icon == "wind") {
-						var emoji = "\uD83C\uDF2C"
+						var emoji = " \uD83C\uDF2C"
 					}
 					else if (WTH.currently.icon == "fog") {
-						var emoji = "\uD83C\uDF2B"
+						var emoji = " \ud83d\udc19"
 					}
 					else if (WTH.currently.icon == "cloudy") {
-						var emoji = "\u2601\uFE0F"
+						var emoji = " \u2601\uFE0F"
 					}
 					else if (WTH.currently.icon == "partly-cloudy-day" || WTH.currently.icon == "partly-cloudy-night") {
-						var emoji = "\u26C5\uFE0F"
+						var emoji = " \u26C5\uFE0F"
 					}
 					promise = bot.sendMessage(id, `Milano - ${ dd }/${ m }/${ yyyy } ${ hh }:${ mm }\n\nCondizioni attuali: ${ WTH.currently.temperature } C°, ${ WTH.currently.summary }` + emoji + `\nPrevisioni: ${ WTH.hourly.summary }`);
 			}
