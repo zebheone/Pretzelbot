@@ -10,10 +10,10 @@ const request = require('request');
 const bot = new TeleBot(key.PROD);
 
 // Great API for this bot
-const KITTYCAT = 'https://thecatapi.com/api/images/get?format=src&type=';
-const NASA = 'https://api.nasa.gov/planetary/apod?api_key=2rSHWsf3M3HOPf0qp3XHEzKaa5u47A1AB3peH9Ap';
-const CHUCK = 'https://api.chucknorris.io/jokes/random';
-const CRYPTO = 'https://www.bitstamp.net/api/v2/ticker/btceur/';
+const KITTYCAT = key.KITTYCAT;
+const NASA = key.NASA;
+const CHUCK = key.CHUCK;
+const CRYPTO = key.CRYPTO;
 
 
 // Command keyboard
@@ -120,7 +120,7 @@ bot.on('/g', function(msg) {
   let clearspaces = text.replace(/\s/g,"+");
   let clearcommand = clearspaces.replace(/\/g/,"boobs");
   let search = 'search?q='+clearcommand;
-    let HOTTY = 'http://api.giphy.com/v1/gifs/'+search+'&limit=100&api_key=1FUIz7HbVC29I5hJPppZ0BjJ6F01aEnu&rating=r';
+    let HOTTY = 'http://api.giphy.com/v1/gifs/'+search+'&limit=100&api_key=' + key.HOTTY + '&rating=r';
     console.log(HOTTY);
     request(HOTTY, function (error, response, body) {
         if (!error && response.statusCode == 200) {
