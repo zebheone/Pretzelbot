@@ -86,14 +86,17 @@ bot.on('/space', function(msg) {
                 console.log(NASA+ ", " + response.statusCode);
                         if (!error && response.statusCode == 200) {
                                 APOD = JSON.parse(body);
+                                var DateTime = new Date(APOD.date);
+                                var NewDate = DateTime.getTime();
+                                var Data = new Date(NewDate);
                                         if (APOD.media_type == "image") {
-                                                promise = bot.sendMessage(id, `Ecco la foto del giorno della NASA! Day ${ APOD.date }, ${ APOD.title }`);
+                                                promise = bot.sendMessage(id, `Ecco la foto del giorno della NASA - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n${ APOD.title }`);
                                                 promise = bot.sendPhoto(id, APOD.hdurl);
                                         }
                                         else if (APOD.media_type == "video") {
                                                 var url = APOD.url.replace(/http:/,"");;
                                                 var url_ok = url.replace(/\/\/www/,"http://www");
-                                                promise = bot.sendMessage(id, `Ecco il video del giorno della NASA! Day ${ APOD.date }, ${ APOD.title }, ${ url_ok }`);
+                                                promise = bot.sendMessage(id, `Ecco il video del giorno della NASA - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n${ APOD.title }, ${ url_ok }`);
                                         }
                         }  
 				else {
