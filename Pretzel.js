@@ -91,7 +91,7 @@ bot.on('/space', function(msg) {
                                 var Data = new Date(NewDate);
                                         if (APOD.media_type == "image") {
                                                 promise = bot.sendMessage(id, `Ecco la foto del giorno della NASA - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n${ APOD.title }`);
-                                                promise = bot.sendPhoto(id, APOD.hdurl);
+                                                promise = bot.sendPhoto(id, APOD.url);
                                         }
                                         else if (APOD.media_type == "video") {
                                                 var url = APOD.url.replace(/http:/,"");;
