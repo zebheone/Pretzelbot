@@ -2,17 +2,14 @@
   PretzelBot production. ^.^
 */
 
-const fs =require("fs");
+const fs = require("fs");
+const readline = require('readline');
 const TeleBot = require('telebot');
 const request = require('request');
 const schedule = require('node-schedule');
-const bot = new TeleBot(key.PROD);
-
-// Imports
-key_file = fs.readFileSync("Pretzelbot/files/keys.json")
+const key_file = fs.readFileSync("Pretzelbot/files/keys.json")
 const key = JSON.parse(key_file);
-subs_file = fs.readFileSync("Pretzelbot/files/subs.json")
-const subs = JSON.parse(subs_file);
+const bot = new TeleBot(key.PROD);
 
 // Free API for this bot
 const KITTYCAT = key.KITTYCAT;
@@ -26,16 +23,21 @@ const markup = bot.keyboard([
   ['/kittygif', '/g'], ['/chuck', '/space'], ['/weather', '/crypto']
 ], { resize: true, once: false });
 
+
 // Scheduler
-var j = schedule.scheduleJob('*/5 * * * *', function(){
-    
-    let text = 'Please Stand By ' + '❤ Pretzelbot News ❤ ' + 'Coming Soon';
-    let pleasestandby = 'https://media3.giphy.com/media/CdhxVrdRN4YFi/giphy.gif';
-    let subscriberid = subs;
-        
-  bot.sendVideo(subscriberid, pleasestandby, { caption: text});
-    
-});
+//var j = schedule.scheduleJob('*/5 * * * *', function(){
+//
+//let text = 'Please Stand By ' + '❤ Pretzelbot News ❤ ' + 'Coming Soon';
+//let pleasestandby = 'https://media3.giphy.com/media/CdhxVrdRN4YFi/giphy.gif';
+//const rl = readline.createInterface({
+//  input: fs.createReadStream("Pretzelbot/files/subs.txt"),
+//        crlfDelay: Infinity
+//        });
+//        rl.on('line', (ID) => {
+//            bot.sendVideo(ID, pleasestandby, { caption: text});
+//            });
+//});
+
 
 // Log every text message
 bot.on('text', function(msg) {
