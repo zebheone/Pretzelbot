@@ -55,9 +55,21 @@ bot.on('text', function(msg) {
     let YourName = msg.from.first_name;
     let Message = msg.text;
     
+    // Online check
     if (Message == 'sei online?') { 
         return [
            promise = bot.sendMessage(id, `si ${ YourName }, sono online sul Raspberry Pi di Pi Dutz!`)]};
+    
+    // Boobs Command Line    
+    if (Message == '/boobs') {
+        
+        let markup = bot.keyboard([
+    ['/g no boobs', '/g big boobs'],
+    ['/g boobs','/g huge boobs']
+  ], { resize: true });
+  
+  return bot.sendMessage(msg.from.id, '❤ Welcome to the Boobs Command Line ❤', { markup });
+    };
 });
 
 // On command "start" or "help"
