@@ -27,14 +27,16 @@ const markup = bot.keyboard([
 // Scheduler
 //var j = schedule.scheduleJob('*/5 * * * *', function(){
 //
-//let text = 'Please Stand By ' + '❤ Pretzelbot News ❤ ' + 'Coming Soon';
-//let pleasestandby = 'https://media3.giphy.com/media/CdhxVrdRN4YFi/giphy.gif';
+//    let text_capture = 'Coming Soon!';
+//    let text_message = '❤ Pretzelbot News ❤';
+//    let text_link = '<a href="http://www.example.com/">inline URL</a>';
 //const rl = readline.createInterface({
 //  input: fs.createReadStream("Pretzelbot/files/subs.txt"),
 //        crlfDelay: Infinity
 //        });
 //        rl.on('line', (ID) => {
 //            bot.sendVideo(ID, pleasestandby, { caption: text});
+//            bot.sendMessage(ID, `This is a <b>${ text_message }</b> message and a link: ${ text_link } `, { parse });
 //            });
 //});
 
