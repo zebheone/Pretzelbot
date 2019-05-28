@@ -60,16 +60,6 @@ bot.on('text', function(msg) {
         return [
            promise = bot.sendMessage(id, `si ${ YourName }, sono online sul Raspberry Pi di Pi Dutz!`)]};
     
-    // Boobs Command Line    
-    if (Message == '/boobs') {
-        
-        let markup = bot.keyboard([
-    ['/g no boobs', '/g big boobs'],
-    ['/g boobs','/g huge boobs']
-  ], { resize: true });
-  
-  return bot.sendMessage(msg.from.id, '❤ Welcome to the Boobs Command Line ❤', { markup });
-    };
 });
 
 // On command "start" or "help"
@@ -112,6 +102,7 @@ bot.on('/jojo', function(msg) {
 bot.on('/space', function(msg) {
 
   let promise;
+  let parse = 'html';
   let id = msg.chat.id;
     
 	request(NASA, function (error, response, body) {
@@ -122,12 +113,12 @@ bot.on('/space', function(msg) {
                                 var NewDate = DateTime.getTime();
                                 var Data = new Date(NewDate);
                                         if (APOD.media_type == "image") {
-                                                promise = bot.sendMessage(id, `Ecco la foto del giorno della NASA - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n${ APOD.title }\n${ APOD.url }`);
+                                                promise = bot.sendMessage(id, `Ecco la <i>foto del giorno</i> della <b>NASA</b> - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n\n<a href="${ APOD.url }">${ APOD.title }</a>`, { parse });
                                         }
                                         else if (APOD.media_type == "video") {
-                                                var url = APOD.url.replace(/http:/,"");;
+                                                var url = APOD.url.replace(/http:/,"");
                                                 var url_ok = url.replace(/\/\/www/,"http://www");
-                                                promise = bot.sendMessage(id, `Ecco il video del giorno della NASA - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n${ APOD.title }, ${ url_ok }`);
+                                                promise = bot.sendMessage(id, `Ecco il <i>video del giorno</i> della <b>NASA</b> - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n${ APOD.title }, ${ url_ok }`, { parse });
                                         }
                         }  
 				else {
