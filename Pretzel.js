@@ -258,10 +258,15 @@ bot.on(['/kitty', '/kittygif'], function(msg) {
 
 // On command "weather"
 bot.on('/weather', function(msg) {
-const WEATHER = 'https://api.darksky.net/forecast/089c221608e8b732b087e6fcc3fe1a26/45.46427, 9.18951?lang=it&units=si';
-let promise;
-let id = msg.chat.id;
-	request(WEATHER, function (error, response, body) {
+
+    const WEATHER = 'https://api.darksky.net/forecast/089c221608e8b732b087e6fcc3fe1a26/45.46427, 9.18951?lang=it&units=si';
+    let promise;
+    let id = msg.chat.id;
+	
+  // Send "user is writing" action
+  bot.sendAction(id, 'typing');
+    
+    request(WEATHER, function (error, response, body) {
 		console.log(WEATHER+ ", " + response.statusCode);
 			if (!error && response.statusCode == 200) {
 				WTH = JSON.parse(body);
