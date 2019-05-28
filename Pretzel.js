@@ -28,7 +28,7 @@ const markup = bot.keyboard([
 //var j = schedule.scheduleJob('*/5 * * * *', function(){
 //
 //    let text_capture = 'Coming Soon!';
-//    let text_message = '❤ Pretzelbot News ❤';
+//    let text_message = '📢 Pretzelbot News 📢';
 //    let text_link = '<a href="http://www.example.com/">inline URL</a>';
 //const rl = readline.createInterface({
 //  input: fs.createReadStream("Pretzelbot/files/subs.txt"),
@@ -231,8 +231,8 @@ bot.on(['/crypto', '/coin'], function(msg) {
     
 });
 
-// On command "kitty" or "kittygif"
-bot.on(['/kitty', '/kittygif'], function(msg) {
+// On command "kitty" or "kittygif" and function "kittybot"
+  const kittybot = function(msg) {
   
   let promise;
   let id = msg.chat.id;
@@ -254,7 +254,9 @@ bot.on(['/kitty', '/kittygif'], function(msg) {
     bot.sendMessage(id, `😿 An error ${ error } occurred, try again.`);
   });
 
-});
+}
+
+bot.on(['/kitty', '/kittygif'], kittybot);
 
 // On command "weather"
 bot.on('/weather', function(msg) {
