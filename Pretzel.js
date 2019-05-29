@@ -264,7 +264,7 @@ bot.on('/weather', function(msg) {
     const WEATHER = 'https://api.darksky.net/forecast/089c221608e8b732b087e6fcc3fe1a26/45.46427, 9.18951?lang=it&units=si';
     let promise;
     let id = msg.chat.id;
-	
+    let parse = 'html';
   // Send "user is writing" action
   bot.sendAction(id, 'typing');
     
@@ -304,7 +304,7 @@ bot.on('/weather', function(msg) {
 					else if (WTH.currently.icon == "partly-cloudy-day" || WTH.currently.icon == "partly-cloudy-night") {
 						var emoji = " \u26C5\uFE0F"
 					}
-					promise = bot.sendMessage(id, `Milano - ${ dd }/${ m }/${ yyyy } ${ hh }:${ mm }\n\nCondizioni attuali: ${ WTH.currently.temperature } C°, ${ WTH.currently.summary }` + emoji + `\nPrevisioni: ${ WTH.hourly.summary }`);
+				promise = bot.sendMessage(id, `<b>Milano</b> - <i>${ dd }/${ m }/${ yyyy } ${ hh }:${ mm }</i>\n\n<b>Condizioni attuali:</b> ${ WTH.currently.temperature } C°, ${ WTH.currently.summary }` + emoji + `\n<b>Previsioni:</b> ${ WTH.hourly.summary }`, { parse });
 			}
 			else {
 				console.log("Server error getting flybys.");
