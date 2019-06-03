@@ -116,9 +116,8 @@ bot.on('/space', function(msg) {
                                                 promise = bot.sendMessage(id, `Ecco la <i>foto del giorno</i> della <b>NASA</b> - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n\n<a href="${ APOD.url }">${ APOD.title }</a>`, { parse });
                                         }
                                         else if (APOD.media_type == "video") {
-                                                var url = APOD.url.replace(/http:/,"");
-                                                var url_ok = url.replace(/\/\/www/,"http://www");
-                                                promise = bot.sendMessage(id, `Ecco il <i>video del giorno</i> della <b>NASA</b> - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n${ APOD.title }, ${ url_ok }`, { parse });
+                                                var url = APOD.url.replace(/http:\/\/|https:\/\//,"");
+                                                promise = bot.sendMessage(id, `Ecco il <i>video del giorno</i> della <b>NASA</b> - ${ Data.getDate() }/${ Data.getMonth()+1 }/${ Data.getFullYear() }\n${ APOD.title }, ${ url }`, { parse });
                                         }
                         }  
 				else {
