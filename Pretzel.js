@@ -271,7 +271,7 @@ bot.on('/weather', function(msg) {
 		console.log(WEATHER+ ", " + response.statusCode);
 			if (!error && response.statusCode == 200) {
 				WTH = JSON.parse(body);
-				var fTemp = WTH.currently.temperature;
+				var fTemp = WTH.currently.apparentTemperature;
 				var fToCel = Math.round(10*((fTemp - 32)/1.8))/10 + "°C";
 				var DateTime = new Date((WTH.currently.time)*1000);
 				var dd = DateTime.getDate();
@@ -303,7 +303,7 @@ bot.on('/weather', function(msg) {
 					else if (WTH.currently.icon == "partly-cloudy-day" || WTH.currently.icon == "partly-cloudy-night") {
 						var emoji = " \u26C5\uFE0F"
 					}
-				promise = bot.sendMessage(id, `<b>Milano</b> - <i>${ dd }/${ m }/${ yyyy } ${ hh }:${ mm }</i>\n\n<b>Condizioni attuali:</b> ${ WTH.currently.temperature } C°, ${ WTH.currently.summary }` + emoji + `\n<b>Previsioni:</b> ${ WTH.hourly.summary }`, { parse });
+				promise = bot.sendMessage(id, `<b>Milano</b> - <i>${ dd }/${ m }/${ yyyy } ${ hh }:${ mm }</i>\n\n<b>Condizioni attuali:</b> ${ WTH.currently.apparentTemperature } C°, ${ WTH.currently.summary }` + emoji + `\n<b>Previsioni:</b> ${ WTH.hourly.summary }`, { parse });
 			}
 			else {
 				console.log("Server error getting flybys.");
